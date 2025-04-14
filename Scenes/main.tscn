@@ -1,0 +1,66 @@
+[gd_scene load_steps=10 format=3 uid="uid://d3x7nulms77a1"]
+
+[ext_resource type="Texture2D" uid="uid://qabm78gmjpr3" path="res://Assets/Backgrounds/Screenshot 2025-04-11 013901.png" id="1_8gbba"]
+[ext_resource type="Script" uid="uid://ct6chbg437nl" path="res://Scripts/main.gd" id="1_21xkr"]
+[ext_resource type="Texture2D" uid="uid://cosmjrk05t3do" path="res://Assets/Backgrounds/4294757115.png" id="2_jjvhh"]
+[ext_resource type="Texture2D" uid="uid://di75f0iutlyl8" path="res://Assets/Backgrounds/1348675742.png" id="3_kry3j"]
+[ext_resource type="PackedScene" uid="uid://cd6jb4sbgsfmn" path="res://Scenes/player_ship.tscn" id="4_jjvhh"]
+[ext_resource type="Script" uid="uid://bn2va7ujnb6vf" path="res://Scripts/camera_controller.gd" id="5_kry3j"]
+[ext_resource type="Script" uid="uid://cq2mve44p86yn" path="res://Scripts/rts_node.gd" id="7_6bp64"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6bp64"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_6bp64"]
+vertices = PackedVector2Array(30923.7, 5094.55, -4292.49, 3581.57, -2505.66, -2026.06, 30739.2, -2334.9)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-2513, -2036, 30749, -2345, 30934, 5105, -4306, 3591)])
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_21xkr")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0, 0)
+motion_mirroring = Vector2(1920, 1080)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+texture = ExtResource("1_8gbba")
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.5, 0.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
+position = Vector2(-109, 128)
+scale = Vector2(2, 2)
+texture = ExtResource("2_jjvhh")
+
+[node name="Sprite2D2" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
+position = Vector2(28193, 223)
+scale = Vector2(2, 2)
+texture = ExtResource("3_kry3j")
+
+[node name="PlayerShip" parent="." instance=ExtResource("4_jjvhh")]
+
+[node name="Camera2D" type="Camera2D" parent="PlayerShip"]
+script = ExtResource("5_kry3j")
+
+[node name="PlayerShip2" parent="." instance=ExtResource("4_jjvhh")]
+position = Vector2(-598, -121)
+
+[node name="RTSNode" type="Node2D" parent="."]
+script = ExtResource("7_6bp64")
+
+[node name="SelectionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectionArea"]
+shape = SubResource("RectangleShape2D_6bp64")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_6bp64")
+
+[node name="LongLeftClickTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[connection signal="timeout" from="LongLeftClickTimer" to="RTSNode" method="_on_long_left_click_timer_timeout"]

@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://cd6jb4sbgsfmn"]
+
+[ext_resource type="Texture2D" uid="uid://dtue357klfkn2" path="res://Assets/Ships/CGN Sol Class.png" id="1_3k1ca"]
+[ext_resource type="Script" uid="uid://1icbxptgba8s" path="res://Scripts/player_ship.gd" id="1_6s7s7"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6s7s7"]
+radius = 23.0
+height = 312.0
+
+[node name="PlayerShip" type="CharacterBody2D"]
+script = ExtResource("1_6s7s7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_3k1ca")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_6s7s7")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -18.0
+offset_top = -123.0
+offset_right = 22.0
+offset_bottom = -40.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 60
+text = "."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 40.0
+target_desired_distance = 40.0
+avoidance_enabled = true
+radius = 70.0
+
+[connection signal="target_reached" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_target_reached"]

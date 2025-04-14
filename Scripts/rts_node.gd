@@ -1,0 +1,91 @@
+extends Node2D
+
+@onready var selection_area = $"../SelectionArea"
+@onready var collision_shape_2d = $"../SelectionArea/CollisionShape2D"
+@onready var long_left_click_timer = $"../LongLeftClickTimer"
+
+var selection_start_point = Vector2.ZERO
+var left_mouse_pressed = false
+var left_mouse_released = false
+var left_mouse_long_pressed = false
+
+func _input(event: InputEvent) -> void:
+	left_mouse_pressed = event is InputEventMouseButton && event.button_index == 1 && event.is_pressed()
+	left_mouse_released = event is InputEventMouseButton && event.button_index == 1 && not event.is_pressed()
+	
+	if left_mouse_pressed:
+		long_left_click_timer.start()
+	elif left_mouse_released:
+		left_mouse_long_pressed = false
+		long_left_click_timer.stop()
+
+func _process(delta: float) -> void:
+	if left_mouse_long_pressed && selection_start_point == Vector2.ZERO:
+		selection_start_point = get_global_mouse_position()
+	elif left_mouse_released && selection_start_point != Vector2.ZERO:
+		_select_units()
+		selection_start_point = Vector2.ZERO
+	elif left_mouse_released:
+		_set_move_target()
+	
+	queue_redraw()
+
+func _draw() -> void:
+	if selection_start_point == Vector2.ZERO: return
+	
+	var mouse_position = get_global_mouse_position()
+	var start_x = selection_start_point.x
+	var start_y = selection_start_point.y
+	var end_x = mouse_position.x
+	var end_y = mouse_position.y
+	
+	var line_width = 3.0
+	var line_color = Color.WHITE
+	
+	draw_line(Vector2(start_x, start_y), Vector2(end_x, start_y), line_color, line_width)
+	draw_line(Vector2(start_x, start_y), Vector2(start_x, end_y), line_color, line_width)
+	draw_line(Vector2(end_x, start_y), Vector2(end_x, end_y), line_color, line_width)
+	draw_line(Vector2(start_x, end_y), Vector2(end_x, end_y), line_color, line_width)
+
+func _select_units():
+	var size = abs(get_global_mouse_position() - selection_start_point)
+	var area_position = _get_rect_start_position()
+	
+	selection_area.global_position = area_position
+	collision_shape_2d.global_position = area_position + size / 2
+	collision_shape_2d.shape.size = size
+	
+	await get_tree().create_timer(0.04).timeout
+	
+	var units = get_tree().get_nodes_in_group("unit")
+	
+	for body in selection_area.get_overlapping_bodies():
+		if body in get_tree().get_nodes_in_group("unit"):
+			body.selected = true
+			units.erase(body)
+	for body in units:
+		body.selected = false
+
+func _get_rect_start_position():
+	var new_position = Vector2()
+	var mouse_position = get_global_mouse_position()
+	
+	if selection_start_point.x < mouse_position.x:
+		new_position.x = selection_start_point.x
+	else: new_position.x = mouse_position.x
+	
+	if selection_start_point.y < mouse_position.y:
+		new_position.y = selection_start_point.y
+	else: new_position.y = mouse_position.y
+	
+	return new_position
+
+func _set_move_target():
+	for unit in get_tree().get_nodes_in_group("unit"):
+		if not unit.selected: 
+			continue
+			
+		unit.set_target_position(get_global_mouse_position())
+
+func _on_long_left_click_timer_timeout() -> void:
+	left_mouse_long_pressed = true
