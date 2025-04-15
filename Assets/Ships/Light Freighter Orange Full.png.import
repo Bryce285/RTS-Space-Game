@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://di75f0iutlyl8"
-path="res://.godot/imported/1348675742.png-02e40e5a7e6726b608c8d83febea20cc.ctex"
+uid="uid://cxx1ud70e7tl4"
+path="res://.godot/imported/Light Freighter Orange Full.png-15713eaf618ca5fa83b42e2db9b09832.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Backgrounds/1348675742.png"
-dest_files=["res://.godot/imported/1348675742.png-02e40e5a7e6726b608c8d83febea20cc.ctex"]
+source_file="res://Assets/Ships/Light Freighter Orange Full.png"
+dest_files=["res://.godot/imported/Light Freighter Orange Full.png-15713eaf618ca5fa83b42e2db9b09832.ctex"]
 
 [params]
 

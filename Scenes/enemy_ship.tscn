@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://jawlocgalc30"]
+
+[ext_resource type="Script" uid="uid://2oji71vdltr7" path="res://Scripts/enemy_ship.gd" id="1_fqvla"]
+[ext_resource type="Texture2D" uid="uid://cxx1ud70e7tl4" path="res://Assets/Ships/Light Freighter Orange Full.png" id="1_tmwji"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fqvla"]
+radius = 14.0
+height = 198.0
+
+[node name="EnemyShip" type="CharacterBody2D"]
+script = ExtResource("1_fqvla")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_tmwji")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_fqvla")

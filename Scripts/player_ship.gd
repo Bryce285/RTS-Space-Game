@@ -1,7 +1,6 @@
 extends CharacterBody2D
 
 var speed = 300
-var click_position = Vector2.ZERO
 var rotation_speed = 5.0 
 
 @onready var navigation_agent_2d = $NavigationAgent2D
@@ -9,8 +8,6 @@ var rotation_speed = 5.0
 var selected = false
 
 func _ready():
-	click_position = position
-	
 	add_to_group("unit")
 
 func _process(delta: float) -> void:
@@ -21,8 +18,13 @@ func _physics_process(delta):
 	
 	var direction = (navigation_agent_2d.get_next_path_position() - global_position).normalized()
 	
-	if direction: velocity = direction * speed
-	else: velocity = Vector2.ZERO
+	if direction: 
+		var target_angle = direction.angle()
+		velocity = direction * speed
+		rotation = lerp_angle(rotation, target_angle, rotation_speed * delta)
+		
+	else: 
+		velocity = Vector2.ZERO
 	
 	move_and_slide()
 

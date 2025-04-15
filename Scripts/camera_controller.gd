@@ -18,9 +18,9 @@ func _process(delta: float) -> void:
 	click_and_drag()
 
 func zoom_control(delta):
-	if Input.is_action_just_pressed("camera_zoom_in"):
+	if Input.is_action_just_pressed("camera_zoom_in") && zoom_target < Vector2(2, 2):
 		zoom_target *= 1.1
-	if Input.is_action_just_pressed("camera_zoom_out"):
+	if Input.is_action_just_pressed("camera_zoom_out") && zoom_target > Vector2(0.15, 0.15):
 		zoom_target *= 0.9
 	
 	zoom = zoom.slerp(zoom_target, zoom_speed * delta)

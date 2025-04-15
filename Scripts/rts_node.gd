@@ -39,7 +39,7 @@ func _draw() -> void:
 	var end_x = mouse_position.x
 	var end_y = mouse_position.y
 	
-	var line_width = 3.0
+	var line_width = 8.0
 	var line_color = Color.WHITE
 	
 	draw_line(Vector2(start_x, start_y), Vector2(end_x, start_y), line_color, line_width)
@@ -81,11 +81,25 @@ func _get_rect_start_position():
 	return new_position
 
 func _set_move_target():
+	var selected_units := []
+	
 	for unit in get_tree().get_nodes_in_group("unit"):
-		if not unit.selected: 
-			continue
-			
-		unit.set_target_position(get_global_mouse_position())
+		if unit.selected:
+			selected_units.append(unit)
+	
+	if selected_units.is_empty():
+		return
+	
+	var center := Vector2.ZERO
+	for unit in selected_units:
+		center += unit.global_position
+	center /= selected_units.size()
+	
+	var target := get_global_mouse_position()
+	
+	for unit in selected_units:
+		var offset = unit.global_position - center
+		unit.set_target_position(target + offset)
 
 func _on_long_left_click_timer_timeout() -> void:
 	left_mouse_long_pressed = true
