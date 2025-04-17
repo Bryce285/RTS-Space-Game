@@ -1,6 +1,5 @@
 extends CharacterBody2D
-
-@onready var objective = $ObjectiveMarker
+class_name EnemyShip
 
 func _physics_process(delta: float) -> void:
-	pass
+	move_and_slide()

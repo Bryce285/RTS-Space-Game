@@ -1,7 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://jawlocgalc30"]
+[gd_scene load_steps=7 format=3 uid="uid://jawlocgalc30"]
 
 [ext_resource type="Script" uid="uid://2oji71vdltr7" path="res://Scripts/enemy_ship.gd" id="1_fqvla"]
 [ext_resource type="Texture2D" uid="uid://cxx1ud70e7tl4" path="res://Assets/Ships/Light Freighter Orange Full.png" id="1_tmwji"]
+[ext_resource type="Script" uid="uid://hjia4th5fs6e" path="res://Scripts/state_machine.gd" id="3_38hgn"]
+[ext_resource type="Script" uid="uid://0sxy1hrrfu1" path="res://Scripts/enemy_ship_hold.gd" id="4_csf4i"]
+[ext_resource type="Script" uid="uid://c8wpyvjqsn0fd" path="res://Scripts/enemy_ship_move.gd" id="5_jcfkk"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fqvla"]
 radius = 14.0
@@ -16,3 +19,17 @@ texture = ExtResource("1_tmwji")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_fqvla")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_38hgn")
+initial_state = NodePath("EnemyShipMove")
+
+[node name="EnemyShipHold" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy")]
+script = ExtResource("4_csf4i")
+enemy = NodePath("../..")
+metadata/_custom_type_script = "uid://0sxy1hrrfu1"
+
+[node name="EnemyShipMove" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy")]
+script = ExtResource("5_jcfkk")
+enemy = NodePath("../..")
+metadata/_custom_type_script = "uid://c8wpyvjqsn0fd"
