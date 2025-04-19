@@ -3,7 +3,7 @@ class_name EnemyShipHold
 
 @export var enemy: CharacterBody2D
 @export var speed := 300.0
-@export var holding_pattern_size := 500.0 # increase size of holding pattern later
+@export var holding_pattern_size := 3000.0 # increase size of holding pattern later
 
 var holding_pattern_center : Vector2
 var holding_pattern_corners = []
@@ -33,9 +33,9 @@ func physics_update(delta: float):
 	if enemy:
 		enemy.velocity = direction.normalized() * speed
 	
-	if direction.length() < 25:
+	if direction.length() < 500:
 		current_move_target_index = (current_move_target_index + 1) % holding_pattern_corners.size()
 		return
 	# increase the distance to emit when implementing better movement
-	elif direction.length() > 1000:
+	elif direction.length() > 10000:
 		Transitioned.emit(self, "EnemyShipMove")
