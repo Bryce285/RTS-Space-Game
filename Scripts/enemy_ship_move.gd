@@ -2,20 +2,21 @@ extends State
 class_name EnemyShipMove
 
 @export var enemy : CharacterBody2D
-@export var speed := 300.0
-var objective : Area2D
-var direction_offset
+@export var acceleration := 100.0
+@export var max_speed := 300.0
 
-func enter():
-	objective = get_tree().get_first_node_in_group("objective")
+var direction_offset
+var angle = randf() * TAU
 
 func physics_update(delta : float):
 	direction_offset = enemy.global_position - Main.formation_center
-	var direction = (objective.global_position + direction_offset) - enemy.global_position
+	var target_direction = (Vector2.RIGHT.rotated(angle) + direction_offset) - enemy.global_position
 	
-	if enemy.global_position.distance_to(Main.objective_position) < 1000:
-		Transitioned.emit(self, "EnemyShipHold")
-	elif enemy.global_position.distance_to(Main.objective_position) > 25:
-		enemy.velocity = direction.normalized() * speed
-	else:
-		enemy.velocity = Vector2()
+	if target_direction.length() > 0.1:
+		var thrust_direction = target_direction.normalized()
+		enemy.velocity += thrust_direction * acceleration * delta
+	
+	if enemy.velocity.length() > max_speed:
+		enemy.velocity = enemy.velocity.normalized() * max_speed
+	
+	enemy.move_and_slide()

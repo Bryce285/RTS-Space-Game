@@ -1,6 +1,7 @@
 extends State
 class_name EnemyShipHold
 
+# This script is not necessary with more realistic movement mechanics
 @export var enemy: CharacterBody2D
 @export var speed := 300.0
 
