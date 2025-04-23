@@ -8,6 +8,12 @@ var selection_start_point = Vector2.ZERO
 var left_mouse_pressed = false
 var left_mouse_released = false
 var left_mouse_long_pressed = false
+var selected_units := []
+
+func _ready() -> void:
+	for unit in get_tree().get_nodes_in_group("unit"):
+		selected_units.append(unit)
+	_set_move_target()
 
 func _input(event: InputEvent) -> void:
 	left_mouse_pressed = event is InputEventMouseButton && event.button_index == 1 && event.is_pressed()
@@ -26,7 +32,7 @@ func _process(delta: float) -> void:
 		_select_units()
 		selection_start_point = Vector2.ZERO
 	elif left_mouse_released:
-		_set_move_target()
+		_set_move_target() # Change this to just deselect all units once full player control of movement is implemented
 	
 	queue_redraw()
 
@@ -48,6 +54,7 @@ func _draw() -> void:
 	draw_line(Vector2(start_x, end_y), Vector2(end_x, end_y), line_color, line_width)
 
 func _select_units():
+	selected_units.clear()
 	var size = abs(get_global_mouse_position() - selection_start_point)
 	var area_position = _get_rect_start_position()
 	
@@ -81,8 +88,6 @@ func _get_rect_start_position():
 	return new_position
 
 func _set_move_target():
-	var selected_units := []
-	
 	for unit in get_tree().get_nodes_in_group("unit"):
 		if unit.selected:
 			selected_units.append(unit)
@@ -95,11 +100,17 @@ func _set_move_target():
 		center += unit.global_position
 	center /= selected_units.size()
 	
-	var target := get_global_mouse_position()
+	var random_angle = randf() * TAU
 	
+	# Players initial movement direction is based on their position in the scene. Randomize their
+	# position to randomize their initial direction.
+	
+	# Change this so that the player controls the direction of travel instead of it being randomized
 	for unit in selected_units:
 		var offset = unit.global_position - center
-		unit.set_target_position(target + offset)
+		unit.angle = random_angle
+		unit.target_direction = (Vector2.RIGHT.rotated(unit.angle) + offset) - unit.global_position
+		print(unit.target_direction)
 
 func _on_long_left_click_timer_timeout() -> void:
 	left_mouse_long_pressed = true

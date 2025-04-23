@@ -28,11 +28,3 @@ theme_override_font_sizes/font_size = 60
 text = "."
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-path_desired_distance = 40.0
-target_desired_distance = 40.0
-avoidance_enabled = true
-radius = 175.0
-
-[connection signal="target_reached" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_target_reached"]

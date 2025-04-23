@@ -1,19 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://d3x7nulms77a1"]
+[gd_scene load_steps=8 format=3 uid="uid://d3x7nulms77a1"]
 
 [ext_resource type="Texture2D" uid="uid://qabm78gmjpr3" path="res://Assets/Backgrounds/Screenshot 2025-04-11 013901.png" id="1_8gbba"]
 [ext_resource type="Script" uid="uid://ct6chbg437nl" path="res://Scripts/main.gd" id="1_21xkr"]
 [ext_resource type="PackedScene" uid="uid://cd6jb4sbgsfmn" path="res://Scenes/player_ship.tscn" id="4_jjvhh"]
 [ext_resource type="Script" uid="uid://bn2va7ujnb6vf" path="res://Scripts/camera_controller.gd" id="5_kry3j"]
-[ext_resource type="PackedScene" uid="uid://f7qchkhxsl84" path="res://Scenes/objective_marker.tscn" id="6_21xkr"]
 [ext_resource type="Script" uid="uid://cq2mve44p86yn" path="res://Scripts/rts_node.gd" id="7_6bp64"]
 [ext_resource type="Script" uid="uid://dx2glfient5kt" path="res://Scripts/enemy_formation_manager.gd" id="8_344ge"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6bp64"]
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_6bp64"]
-vertices = PackedVector2Array(29852.5, -10066, 28859.5, 9925.97, -19759.3, 9793.02, -20288.7, -10198)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-20299, -10208, 29863, -10076, 28869, 9936, -19769, 9803)])
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_21xkr")
@@ -45,10 +39,10 @@ scale = Vector2(4.68, 4.68)
 texture = ExtResource("1_8gbba")
 
 [node name="PlayerShip" parent="." instance=ExtResource("4_jjvhh")]
-position = Vector2(-1155, 7)
+position = Vector2(-1155, 1484)
 
 [node name="PlayerShip2" parent="." instance=ExtResource("4_jjvhh")]
-position = Vector2(-1753, -114)
+position = Vector2(-1753, 1363)
 
 [node name="RTSNode" type="Node2D" parent="."]
 script = ExtResource("7_6bp64")
@@ -58,15 +52,9 @@ script = ExtResource("7_6bp64")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SelectionArea"]
 shape = SubResource("RectangleShape2D_6bp64")
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-navigation_polygon = SubResource("NavigationPolygon_6bp64")
-
 [node name="LongLeftClickTimer" type="Timer" parent="."]
 wait_time = 0.1
 one_shot = true
-
-[node name="ObjectiveMarker" parent="." instance=ExtResource("6_21xkr")]
-position = Vector2(4143, 0)
 
 [node name="EnemyFormationManager" type="Node" parent="."]
 script = ExtResource("8_344ge")

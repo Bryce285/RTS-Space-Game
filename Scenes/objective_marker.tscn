@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://f7qchkhxsl84"]
+[gd_scene load_steps=3 format=3 uid="uid://f7qchkhxsl84"]
 
 [ext_resource type="Script" uid="uid://cvtaecudp53wa" path="res://Scripts/objective_marker.gd" id="1_5hg43"]
-[ext_resource type="Texture2D" uid="uid://dtue357klfkn2" path="res://Assets/Ships/CGN Sol Class.png" id="2_lq4pd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mo1nh"]
 radius = 5850.62
@@ -11,6 +10,3 @@ script = ExtResource("1_5hg43")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_mo1nh")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_lq4pd")
