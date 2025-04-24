@@ -34,6 +34,13 @@ func _process(delta: float) -> void:
 	elif left_mouse_released:
 		_set_move_target() # Change this to just deselect all units once full player control of movement is implemented
 	
+	if Input.is_action_pressed("rotate_left"):
+		for unit in get_tree().get_nodes_in_group("unit"):
+			unit.rotation -= 1 * delta
+	elif Input.is_action_pressed("rotate_right"):
+		for unit in get_tree().get_nodes_in_group("unit"):
+			unit.rotation += 1 * delta
+	
 	queue_redraw()
 
 func _draw() -> void:
