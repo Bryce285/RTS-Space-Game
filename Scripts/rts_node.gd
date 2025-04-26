@@ -11,8 +11,6 @@ var left_mouse_long_pressed = false
 var selected_units := []
 var initial_speed = 100.0
 
-#BUG - units are initalized as selected but then deselected when they should be selected
-
 func _ready() -> void:
 	for unit in get_tree().get_nodes_in_group("unit"):
 		selected_units.append(unit)
@@ -38,7 +36,6 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _physics_process(delta: float) -> void:
-	print(selected_units)
 	for unit in get_tree().get_nodes_in_group("unit"):
 		if unit in selected_units:
 			if Input.is_action_pressed("rotate_left"):
@@ -85,13 +82,10 @@ func _select_units():
 	for body in selection_area.get_overlapping_bodies():
 		if body in get_tree().get_nodes_in_group("unit"):
 			body.selected = true
+			selected_units.append(body)
 			units.erase(body)
 	for body in units:
 		body.selected = false
-	
-	#if selected_units.is_empty():
-	#	for unit in get_tree().get_nodes_in_group("unit"):
-	#		unit.selected = false
 
 func _get_rect_start_position():
 	var new_position = Vector2()
