@@ -1,7 +1,7 @@
 extends Node
 
 const ENEMY = preload("res://Scenes/enemy_ship.tscn")
-const SHIPS_NUM = 3
+const SHIPS_NUM = 0
 var formation = []
 var formation_move_target
 

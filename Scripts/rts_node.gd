@@ -9,6 +9,9 @@ var left_mouse_pressed = false
 var left_mouse_released = false
 var left_mouse_long_pressed = false
 var selected_units := []
+var initial_speed = 100.0
+
+#BUG - units are initalized as selected but then deselected when they should be selected
 
 func _ready() -> void:
 	for unit in get_tree().get_nodes_in_group("unit"):
@@ -31,17 +34,23 @@ func _process(delta: float) -> void:
 	elif left_mouse_released && selection_start_point != Vector2.ZERO:
 		_select_units()
 		selection_start_point = Vector2.ZERO
-	elif left_mouse_released:
-		_set_move_target() # Change this to just deselect all units once full player control of movement is implemented
-	
-	if Input.is_action_pressed("rotate_left"):
-		for unit in get_tree().get_nodes_in_group("unit"):
-			unit.rotation -= 1 * delta
-	elif Input.is_action_pressed("rotate_right"):
-		for unit in get_tree().get_nodes_in_group("unit"):
-			unit.rotation += 1 * delta
 	
 	queue_redraw()
+
+func _physics_process(delta: float) -> void:
+	print(selected_units)
+	for unit in get_tree().get_nodes_in_group("unit"):
+		if unit in selected_units:
+			if Input.is_action_pressed("rotate_left"):
+				unit.rotate_velocity -= 1 * delta
+			if Input.is_action_pressed("rotate_right"):
+				unit.rotate_velocity += 1 * delta
+		
+			if Input.is_action_pressed("thrust_increase"):
+				unit.velocity += Vector2.RIGHT.rotated(unit.rotation) * unit.acceleration * delta
+		
+		unit.rotation += unit.rotate_velocity * delta
+		unit.move_and_slide()
 
 func _draw() -> void:
 	if selection_start_point == Vector2.ZERO: return
@@ -79,6 +88,10 @@ func _select_units():
 			units.erase(body)
 	for body in units:
 		body.selected = false
+	
+	#if selected_units.is_empty():
+	#	for unit in get_tree().get_nodes_in_group("unit"):
+	#		unit.selected = false
 
 func _get_rect_start_position():
 	var new_position = Vector2()
@@ -112,12 +125,13 @@ func _set_move_target():
 	# Players initial movement direction is based on their position in the scene. Randomize their
 	# position to randomize their initial direction.
 	
-	# Change this so that the player controls the direction of travel instead of it being randomized
+	#TODO - make initial rotation match intial direction
+	
 	for unit in selected_units:
 		var offset = unit.global_position - center
 		unit.angle = random_angle
-		unit.target_direction = (Vector2.RIGHT.rotated(unit.angle) + offset) - unit.global_position
-		print(unit.target_direction)
+		var direction = (Vector2.RIGHT.rotated(unit.angle) + offset) - unit.global_position
+		unit.velocity = direction.normalized() * initial_speed
 
 func _on_long_left_click_timer_timeout() -> void:
 	left_mouse_long_pressed = true

@@ -28,6 +28,7 @@ motion_scale = Vector2(0.5, 0.5)
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.3, 0.3)
 script = ExtResource("5_kry3j")
 
 [node name="TextureRect" type="TextureRect" parent="Camera2D"]
@@ -39,10 +40,10 @@ scale = Vector2(4.68, 4.68)
 texture = ExtResource("1_8gbba")
 
 [node name="PlayerShip" parent="." instance=ExtResource("4_jjvhh")]
-position = Vector2(-1155, 1484)
+position = Vector2(-1155, 60)
 
 [node name="PlayerShip2" parent="." instance=ExtResource("4_jjvhh")]
-position = Vector2(-1753, 1363)
+position = Vector2(-1753, -61)
 
 [node name="RTSNode" type="Node2D" parent="."]
 script = ExtResource("7_6bp64")
