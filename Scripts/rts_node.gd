@@ -14,6 +14,7 @@ var initial_speed = 100.0
 func _ready() -> void:
 	for unit in get_tree().get_nodes_in_group("unit"):
 		selected_units.append(unit)
+		unit.selected = true
 	_set_move_target()
 
 func _input(event: InputEvent) -> void:
@@ -119,13 +120,12 @@ func _set_move_target():
 	# Players initial movement direction is based on their position in the scene. Randomize their
 	# position to randomize their initial direction.
 	
-	#TODO - make initial rotation match intial direction
-	
 	for unit in selected_units:
 		var offset = unit.global_position - center
 		unit.angle = random_angle
 		var direction = (Vector2.RIGHT.rotated(unit.angle) + offset) - unit.global_position
 		unit.velocity = direction.normalized() * initial_speed
+		unit.rotation = unit.velocity.angle()
 
 func _on_long_left_click_timer_timeout() -> void:
 	left_mouse_long_pressed = true

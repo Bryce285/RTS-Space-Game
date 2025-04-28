@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://d3x7nulms77a1"]
+[gd_scene load_steps=9 format=3 uid="uid://d3x7nulms77a1"]
 
 [ext_resource type="Texture2D" uid="uid://qabm78gmjpr3" path="res://Assets/Backgrounds/Screenshot 2025-04-11 013901.png" id="1_8gbba"]
 [ext_resource type="Script" uid="uid://ct6chbg437nl" path="res://Scripts/main.gd" id="1_21xkr"]
 [ext_resource type="PackedScene" uid="uid://cd6jb4sbgsfmn" path="res://Scenes/player_ship.tscn" id="4_jjvhh"]
 [ext_resource type="Script" uid="uid://bn2va7ujnb6vf" path="res://Scripts/camera_controller.gd" id="5_kry3j"]
 [ext_resource type="Script" uid="uid://cq2mve44p86yn" path="res://Scripts/rts_node.gd" id="7_6bp64"]
+[ext_resource type="Script" uid="uid://dmufqvy0kcghl" path="res://Scripts/player_ships_manager.gd" id="7_344ge"]
 [ext_resource type="Script" uid="uid://dx2glfient5kt" path="res://Scripts/enemy_formation_manager.gd" id="8_344ge"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6bp64"]
@@ -40,10 +41,10 @@ scale = Vector2(4.68, 4.68)
 texture = ExtResource("1_8gbba")
 
 [node name="PlayerShip" parent="." instance=ExtResource("4_jjvhh")]
-position = Vector2(-1155, 60)
+position = Vector2(-1361, 1469)
 
 [node name="PlayerShip2" parent="." instance=ExtResource("4_jjvhh")]
-position = Vector2(-1753, -61)
+position = Vector2(-1959, 1348)
 
 [node name="RTSNode" type="Node2D" parent="."]
 script = ExtResource("7_6bp64")
@@ -59,5 +60,8 @@ one_shot = true
 
 [node name="EnemyFormationManager" type="Node" parent="."]
 script = ExtResource("8_344ge")
+
+[node name="PlayerShipsManager" type="Node" parent="."]
+script = ExtResource("7_344ge")
 
 [connection signal="timeout" from="LongLeftClickTimer" to="RTSNode" method="_on_long_left_click_timer_timeout"]
