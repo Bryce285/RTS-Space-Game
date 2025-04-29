@@ -1,7 +1,8 @@
 extends State
 class_name EnemyShipHold
 
-# This script is not necessary with more realistic movement mechanics
+# This script is not necessary with the current movement mechanics but
+# I'm keeping it for now in case I want to add another state later
 @export var enemy: CharacterBody2D
 @export var speed := 300.0
 

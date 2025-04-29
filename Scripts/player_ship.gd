@@ -16,11 +16,5 @@ func _process(delta: float) -> void:
 	label.visible = selected
 
 func _physics_process(delta):
-	#if target_direction.length() > 0.1:
-		#var thrust_direction = target_direction.normalized()
-		#velocity += thrust_direction * acceleration * delta
-	
 	if velocity.length() > speed:
 		velocity = velocity.normalized() * speed 
-	
-	#move_and_slide()

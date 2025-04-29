@@ -3,7 +3,7 @@ class_name EnemyShipMove
 
 @export var enemy : CharacterBody2D
 @export var acceleration := 100.0
-@export var max_speed := 300.0
+@export var max_speed := 100.0
 
 var direction_offset
 var angle = randf() * TAU
@@ -18,5 +18,7 @@ func physics_update(delta : float):
 	
 	if enemy.velocity.length() > max_speed:
 		enemy.velocity = enemy.velocity.normalized() * max_speed
+	
+	enemy.rotation = enemy.velocity.angle()
 	
 	enemy.move_and_slide()

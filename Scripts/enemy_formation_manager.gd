@@ -1,7 +1,7 @@
 extends Node
 
 const ENEMY = preload("res://Scenes/enemy_ship.tscn")
-const SHIPS_NUM = 0
+const SHIPS_NUM = 3
 var formation = []
 var formation_move_target
 
@@ -12,7 +12,7 @@ func _ready() -> void:
 func spawn():
 	for ship in range(SHIPS_NUM):
 		var new_enemy = ENEMY.instantiate()
-		new_enemy.global_position = Vector2(randi_range(-1000, 1000), randi_range(-1000, 1000))
+		new_enemy.global_position = Vector2(randi_range(0, 2000), randi_range(-2000, 0))
 		get_tree().current_scene.add_child.call_deferred(new_enemy)
 		formation.append(new_enemy)
 

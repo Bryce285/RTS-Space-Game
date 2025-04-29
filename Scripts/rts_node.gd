@@ -11,11 +11,21 @@ var left_mouse_long_pressed = false
 var selected_units := []
 var initial_speed = 100.0
 
+const PLAYER = preload("res://Scenes/player_ship.tscn")
+const SHIPS_NUM := 2
+var spawn_point : Vector2
+
 func _ready() -> void:
-	for unit in get_tree().get_nodes_in_group("unit"):
-		selected_units.append(unit)
-		unit.selected = true
+	spawn()
 	_set_move_target()
+
+func spawn():
+	for ship in range(SHIPS_NUM):
+		var new_ship = PLAYER.instantiate()
+		new_ship.global_position = Vector2(randi_range(-2000, 0), randi_range(0, 2000))
+		get_tree().current_scene.add_child.call_deferred(new_ship)
+		selected_units.append(new_ship)
+		new_ship.selected = true
 
 func _input(event: InputEvent) -> void:
 	left_mouse_pressed = event is InputEventMouseButton && event.button_index == 1 && event.is_pressed()
