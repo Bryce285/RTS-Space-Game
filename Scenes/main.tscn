@@ -53,4 +53,14 @@ one_shot = true
 [node name="EnemyFormationManager" type="Node" parent="."]
 script = ExtResource("8_344ge")
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [connection signal="timeout" from="LongLeftClickTimer" to="RTSNode" method="_on_long_left_click_timer_timeout"]
